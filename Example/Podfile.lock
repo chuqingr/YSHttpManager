@@ -1,0 +1,16 @@
+PODS:
+  - YSHttpManager (0.1.0)
+
+DEPENDENCIES:
+  - YSHttpManager (from `../`)
+
+EXTERNAL SOURCES:
+  YSHttpManager:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  YSHttpManager: afe1cc0a7ea5a96ad3a594d9d66134c963aae94b
+
+PODFILE CHECKSUM: cbfb1b9b5ddfbf74ea7c4ba12b754c2533df5f80
+
+COCOAPODS: 1.6.0

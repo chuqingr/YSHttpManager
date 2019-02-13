@@ -7,6 +7,7 @@
 //
 
 #import "YSViewController.h"
+#import <YSHttpManagerHeader.h>
 
 @interface YSViewController ()
 
