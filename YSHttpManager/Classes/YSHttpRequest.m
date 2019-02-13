@@ -74,11 +74,14 @@
     request.cachePolicy = NSURLRequestUseProtocolCachePolicy;
     /// 非GET DELETE
     if (self.requestMethod >= 2) {
-        NSData *data = [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
-        request.HTTPBody = data;
+        if (param) {
+            NSData *data = [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
+            request.HTTPBody = data;
+        }
     }
 //    NSMutableURLRequest *request = [serializer requestWithMethod:[self httpMethod] URLString:[self.baseURL stringByAppendingString:self.requestURL] parameters:[self generateRequestBody] error:NULL];
     // 请求头
+    request.allHTTPHeaderFields = self.requestHeader;
     NSMutableDictionary *header = request.allHTTPHeaderFields.mutableCopy;
     if (!header)
     {

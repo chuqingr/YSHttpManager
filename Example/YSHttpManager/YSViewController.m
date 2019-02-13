@@ -18,7 +18,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
+    YSHttpConfigure.shareInstance.generalParameters = @{};
+    YSHttpConfigure.shareInstance.isDebug = true;
+
+    [YSHttpManager.shareManager sendRequestWithConfigBlock:^(YSHttpRequest * _Nullable request) {
+        request.baseURL = @"";
+        request.requestURL = @"";
+        request.requestHeader = @{};
+        request.baseURL = @"";
+
+    } complete:^(YSHttpResponse * _Nullable response) {
+
+    }];
+
+    YSHttpRequest *request = [YSHttpRequest new];
+    [YSHttpManager.shareManager sendRequest:request complete:^(YSHttpResponse * _Nullable response) {
+
+    }];
 }
 
 - (void)didReceiveMemoryWarning
