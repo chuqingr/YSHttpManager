@@ -123,12 +123,8 @@
         [self.reqeustDictionary removeObjectForKey:@([task taskIdentifier])];
         [self requestFinishedWithBlock:complete task:task data:data error:error];
     }];
-//    task = [self.sessionManager  dataTaskWithRequest:request
-//                                  completionHandler:^(NSURLResponse *_Nonnull response, id _Nullable responseObject, NSError *_Nullable error) {
-//
-//                                  }];
 
-    NSString *requestId = [[NSString alloc] initWithFormat:@"%ld", [task taskIdentifier]];
+    NSString *requestId = [[NSString alloc] initWithFormat:@"%lu", (unsigned long)[task taskIdentifier]];
     self.reqeustDictionary[requestId] = task;
     [task resume];
     return requestId;

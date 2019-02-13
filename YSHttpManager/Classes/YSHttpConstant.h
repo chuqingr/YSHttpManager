@@ -28,15 +28,8 @@ typedef NS_ENUM (NSUInteger, YSHttpResponseStatus){
 
 /// 响应配置 Block
 typedef void (^YSHttpResponseBlock)(YSHttpResponse * _Nullable response);
-//typedef void (^HKGroupResponseBlock)(NSArray<HKHttpResponse *> * _Nullable responseObjects, BOOL isSuccess);
-//typedef void (^HKNextBlock)(HKHttpRequest * _Nullable request, HKHttpResponse * _Nullable responseObject, BOOL * _Nullable isSent);
 
 /// 请求配置 Block
 typedef void (^YSHRequestConfigBlock)(YSHttpRequest * _Nullable request);
-
-//typedef void (^HKGroupRequestConfigBlock)(HKHttpGroupRequest * _Nullable groupRequest);
-
-//typedef void (^HKChainRequestConfigBlock)(HKHttpChainRequest * _Nullable chainRequest);
-
 
 #endif /* YSHttpConstant_h */

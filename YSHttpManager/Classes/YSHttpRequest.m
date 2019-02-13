@@ -32,9 +32,6 @@
 - (NSURLRequest *)generateRequest{
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     config.timeoutIntervalForRequest = self.reqeustTimeoutInterval;
-//    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
-//    serializer.timeoutInterval = [self reqeustTimeoutInterval];
-//    serializer.cachePolicy = NSURLRequestUseProtocolCachePolicy;
 
     NSString *urlStr = [self.baseURL stringByAppendingString:self.requestURL];
 
@@ -61,12 +58,6 @@
         }
 
     }
-//    else {
-
-//        [request setValue:self.apiVersion forHTTPHeaderField:@"App-Version"];
-//        [request setValue:@"iOS"forHTTPHeaderField:@"Device-Type"];
-//        [request setValue:@"application/x-www-form-urlencoded"forHTTPHeaderField:@"Content-Type"];
-//    }
 
     NSURL *url = [NSURL URLWithString:urlStr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -79,7 +70,7 @@
             request.HTTPBody = data;
         }
     }
-//    NSMutableURLRequest *request = [serializer requestWithMethod:[self httpMethod] URLString:[self.baseURL stringByAppendingString:self.requestURL] parameters:[self generateRequestBody] error:NULL];
+
     // 请求头
     request.allHTTPHeaderFields = self.requestHeader;
     NSMutableDictionary *header = request.allHTTPHeaderFields.mutableCopy;
