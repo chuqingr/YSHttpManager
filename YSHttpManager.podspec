@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   s.requires_arc     = true
 
   s.source_files = 'YSHttpManager/Classes/**/*'
-  s.public_header_files = 'YSHttpManager/Classes/YSHttpManagerHeader.h'
+  # s.public_header_files = 'YSHttpManager/Classes/YSHttpManagerHeader.h'
 
   # s.resource_bundles = {
   #   'YSHttpManager' => ['YSHttpManager/Assets/*.png']
