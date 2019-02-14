@@ -72,6 +72,7 @@
     {
         header = [[NSMutableDictionary alloc] init];
     }
+    header[@"App-Version"] = self.apiVersion;
     [header addEntriesFromDictionary:[YSHttpConfigure shareInstance].generalHeaders];
     request.allHTTPHeaderFields = header;
 
