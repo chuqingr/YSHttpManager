@@ -15,7 +15,7 @@
 
 
 /**
- 请求 Base URL，优先级高于 [HKHttpConfigure generalServer];
+ 请求 Base URL，优先级高于 YSHttpConfigure.generalServer;
  */
 @property (nonatomic, copy) NSString *baseURL;
 
@@ -24,6 +24,10 @@
  */
 @property (nonatomic, copy) NSString *requestURL;
 
+/**
+ 请求路径2 eg: ?code=value&key=value,优先级高于 [YSHttpConfigure generalURL]
+ */
+@property (nonatomic, strong)NSDictionary *URLParams;
 /**
  请求头，默认为空 @{}
  */
@@ -40,10 +44,9 @@
 @property (nonatomic, strong) NSDictionary *normalParams;
 
 /**
- 请求方式 默认为 HKRequestTypePost
+ 请求方式 默认为 YSHttpRequestTypePost
  */
 @property (nonatomic, assign) YSHttpRequestType requestMethod;
-
 
 /**
  请求方式string

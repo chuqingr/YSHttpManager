@@ -30,10 +30,7 @@
  @return NSURLRequest
  */
 - (NSURLRequest *)generateRequest{
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.timeoutIntervalForRequest = self.reqeustTimeoutInterval;
-
-    NSString *urlStr = [self.baseURL stringByAppendingString:self.requestURL];
+    __block NSString *urlStr = [self.baseURL stringByAppendingString:self.requestURL];
 
 //    /// 是否是测试环境
 //    if (YSHttpConfigure.shareInstance.enableTest)
@@ -42,29 +39,26 @@
 //        [request setValue:@"crawltest"forHTTPHeaderField:@"PARAMS-EVENT-ID"];
 //    }
 
-    NSDictionary *param = YSHttpConfigure.shareInstance.generalParameters;
     /// GET = 0 | DELETE = 1
-    if (self.requestMethod < 2) {
-        NSArray *allKeys = param.allKeys;
-        for (int i = 0; i < allKeys.count; i ++) {
+    if (self.URLParams.count > 0) {
+        [self.URLParams enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
             NSString *string;
             /// 包含 ？
             if ([urlStr containsString:@"?"]) {
-                string = [NSString stringWithFormat:@"&%@=%@",allKeys[i],param[allKeys[i]]];
+                string = [NSString stringWithFormat:@"&%@=%@",key,obj];
             }else {
-                string = [NSString stringWithFormat:@"?%@=%@",allKeys[i],param[allKeys[i]]];
+                string = [NSString stringWithFormat:@"?%@=%@",key,obj];
             }
             urlStr = [urlStr stringByAppendingString:string];
-        }
-
+        }];
     }
 
     NSURL *url = [NSURL URLWithString:urlStr];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    request.HTTPMethod = [self httpMethod];
-    request.cachePolicy = NSURLRequestUseProtocolCachePolicy;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:self.reqeustTimeoutInterval];
+    request.HTTPMethod = [self requestMethodName];
     /// 非GET DELETE
     if (self.requestMethod >= 2) {
+        NSDictionary *param = [self generateRequestBody];
         if (param) {
             NSData *data = [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
             request.HTTPBody = data;
@@ -90,47 +84,71 @@
  @return 请求参数字典
  */
 - (NSDictionary *)generateRequestBody{
-    NSDictionary *commonDic = [YSHttpConfigure shareInstance].generalParameters;
+    NSMutableDictionary *commonDic = [YSHttpConfigure shareInstance].generalParameters.mutableCopy;
     //    NSMutableDictionary *encryptDict = @{}.mutableCopy;
     //    NSAssert(self.requestPath.length > 0, @"请求 Path 不能为空");
     //    encryptDict[@"uri"] = self.requestPath;
     //    [encryptDict addEntriesFromDictionary:commonDic];
     //    [encryptDict addEntriesFromDictionary:self.encryptParams];
     //
-    //    NSMutableDictionary *rslt = @{}.mutableCopy;
-    //    [rslt addEntriesFromDictionary:self.normalParams];
+        [commonDic addEntriesFromDictionary:self.normalParams];
 //#warning 这里要看后台怎么设置
     //    rslt[@"params2"] = [[encryptDict toJsonString] base64EncodedString];
 
 
     //    NSLog(@"%@", encryptDict);
-    return commonDic;
+    return commonDic.copy;
 }
-- (NSString *)httpMethod{
-    YSHttpRequestType type = [self requestMethod];
-    switch (type)
-    {
-        case YSHttpRequestTypePost:
-            return @"POST";
-        case YSHttpRequestTypeGet:
-            return @"GET";
-        case YSHttpRequestTypePut:
-            return @"PUT";
-        case YSHttpRequestTypeDelete:
-            return @"DELETE";
-        case YSHttpRequestTypePatch:
-            return @"PATCH";
-        default:
-            break;
+- (NSString *)requestMethodName {
+    if (!_requestMethodName) {
+        YSHttpRequestType type = self.requestMethod;
+        switch (type) {
+            case YSHttpRequestTypePost:
+                _requestMethodName = @"POST";
+            case YSHttpRequestTypeGet:
+                _requestMethodName = @"GET";
+            case YSHttpRequestTypePut:
+                _requestMethodName = @"PUT";
+            case YSHttpRequestTypeDelete:
+                _requestMethodName = @"DELETE";
+            case YSHttpRequestTypePatch:
+                _requestMethodName = @"PATCH";
+            default:
+                break;
+        }
     }
-    return @"GET";
+    return _requestMethodName;
 }
+//- (NSString *)httpMethod {
+//    YSHttpRequestType type = self.requestMethod;
+//    switch (type) {
+//        case YSHttpRequestTypePost:
+//            return @"POST";
+//        case YSHttpRequestTypeGet:
+//            return @"GET";
+//        case YSHttpRequestTypePut:
+//            return @"PUT";
+//        case YSHttpRequestTypeDelete:
+//            return @"DELETE";
+//        case YSHttpRequestTypePatch:
+//            return @"PATCH";
+//        default:
+//            break;
+//    }
+//    return @"GET";
+//}
 
 - (NSString *)baseURL{
     if (!_baseURL) {
-        _baseURL = [YSHttpConfigure shareInstance].generalServer;
+        _baseURL = YSHttpConfigure.shareInstance.generalServer;
     }
     return _baseURL;
+}
+- (NSDictionary *)URLParams {
+    if (!_URLParams) {
+        _URLParams = YSHttpConfigure.shareInstance.generalURL;
+    }
+    return _URLParams;
 }
 - (void)dealloc {
     if ([YSHttpConfigure shareInstance].isDebug) {

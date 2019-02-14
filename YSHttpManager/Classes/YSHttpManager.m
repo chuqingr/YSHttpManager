@@ -34,6 +34,7 @@
     if (_sessionManager == nil){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.HTTPMaximumConnectionsPerHost = 4;
+
         _sessionManager = [NSURLSession sessionWithConfiguration:configuration];
 //        [[NSURLSession alloc] initWithSessionConfiguration:configuration];
 //        _sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -51,7 +52,7 @@
         }
         return nil;
     }
-    return [self requestWithRequest:[request generateRequest]  complete:result];
+    return [self requestWithRequest:request.generateRequest  complete:result];
 }
 - (NSString *_Nullable)sendRequestWithConfigBlock:(nonnull YSHRequestConfigBlock)requestBlock complete:(nonnull YSHttpResponseBlock) result{
     YSHttpRequest *request = [YSHttpRequest new];
@@ -66,7 +67,7 @@
         }
         return nil;
     }
-    return [self requestWithRequest:[request generateRequest] complete:result];
+    return [self requestWithRequest:request.generateRequest complete:result];
 }
 
 

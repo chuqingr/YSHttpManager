@@ -18,6 +18,8 @@
 
 /// 公共请求头
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSString *> *generalHeaders;
+/// 公共请求路径
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSString *> *generalURL;
 
 /// 服务器地址 默认：
 @property (nonatomic, copy, readwrite, nonnull) NSString *generalServer;

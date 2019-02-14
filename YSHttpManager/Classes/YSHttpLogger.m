@@ -29,7 +29,7 @@
     NSMutableString *logString = [NSMutableString stringWithString:@"\n\n**************************************************************\n*                       Request Start     "
                                   @"                   *\n**************************************************************\n\n"];
 
-    [logString appendFormat:@"Method:\t\t\t%@\n", [request requestMethodName]];
+    [logString appendFormat:@"Method:\t\t\t%@\n", request.requestMethodName];
     [logString appendFormat:@"Version:\t\t%@\n", request.apiVersion];
     [logString appendFormat:@"Service:\t\t%@\n", request.requestURL];
     [logString appendFormat:@"Params:\n%@", request.encryptParams];
