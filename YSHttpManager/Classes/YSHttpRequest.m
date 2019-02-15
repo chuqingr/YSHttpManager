@@ -109,14 +109,19 @@
         switch (type) {
             case YSHttpRequestTypePost:
                 _requestMethodName = @"POST";
+                break;
             case YSHttpRequestTypeGet:
                 _requestMethodName = @"GET";
+                break;
             case YSHttpRequestTypePut:
                 _requestMethodName = @"PUT";
+                break;
             case YSHttpRequestTypeDelete:
                 _requestMethodName = @"DELETE";
+                break;
             case YSHttpRequestTypePatch:
                 _requestMethodName = @"PATCH";
+                break;
             default:
                 break;
         }
