@@ -26,8 +26,7 @@
 
 - (nonnull instancetype)initWithRequestId:(nonnull NSNumber *)requestId
                                   request:(nonnull NSURLRequest *)request
-                             responseData:(nullable NSData *)responseData
-                                   status:(YSHttpResponseStatus)status;
+                             responseData:(nullable NSData *)responseData;
 
 - (nonnull instancetype)initWithRequestId:(nonnull NSNumber *)requestId
                                   request:(nonnull NSURLRequest *)request

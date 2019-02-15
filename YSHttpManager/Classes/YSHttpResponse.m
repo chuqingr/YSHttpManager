@@ -37,12 +37,11 @@
 
 - (instancetype)initWithRequestId:(NSNumber *)requestId
                           request:(NSURLRequest *)request
-                     responseData:(NSData *)responseData
-                           status:(YSHttpResponseStatus)status {
+                     responseData:(NSData *)responseData {
     self = [super init];
     if (self)
     {
-        self.requestId = [requestId unsignedIntegerValue];
+        self.requestId = requestId.unsignedIntegerValue;
         self.request = request;
         self.rawData = responseData;
         [self inspectionResponse:nil];

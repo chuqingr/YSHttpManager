@@ -151,7 +151,7 @@
         blk ? blk(rsp) : nil;
     }
     else{
-        YSHttpResponse *rsp = [[YSHttpResponse alloc] initWithRequestId:@([task taskIdentifier]) request:task.originalRequest responseData:data status:YSHttpResponseStatusSuccess];
+        YSHttpResponse *rsp = [[YSHttpResponse alloc] initWithRequestId:@(task.taskIdentifier) request:task.originalRequest responseData:data];
         for (id obj in self.responseInterceptorObjectArray)
         {
             if ([obj respondsToSelector:@selector(validatorResponse:)])
