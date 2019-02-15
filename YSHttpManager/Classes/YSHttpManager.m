@@ -122,7 +122,10 @@
     __block NSURLSessionDataTask *task = nil;
     task = [self.sessionManager dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         [self.reqeustDictionary removeObjectForKey:@([task taskIdentifier])];
-        [self requestFinishedWithBlock:complete task:task data:data error:error];
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self requestFinishedWithBlock:complete task:task data:data error:error];
+        });
+
     }];
 
     NSString *requestId = [[NSString alloc] initWithFormat:@"%lu", (unsigned long)[task taskIdentifier]];
@@ -149,8 +152,7 @@
             }
         }
         blk ? blk(rsp) : nil;
-    }
-    else{
+    } else{
         YSHttpResponse *rsp = [[YSHttpResponse alloc] initWithRequestId:@(task.taskIdentifier) request:task.originalRequest responseData:data];
         for (id obj in self.responseInterceptorObjectArray)
         {
