@@ -56,7 +56,7 @@
     NSURL *url = [NSURL URLWithString:urlStr];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:self.reqeustTimeoutInterval];
     request.HTTPMethod = [self requestMethodName];
-    /// 非GET DELETE
+    /// 非GET DELETE BODY  请求体
     if (self.requestMethod >= 2) {
         NSDictionary *param = [self generateRequestBody];
         if (param) {
@@ -75,6 +75,7 @@
     header[@"App-Version"] = self.apiVersion;
     [header addEntriesFromDictionary:[YSHttpConfigure shareInstance].generalHeaders];
     request.allHTTPHeaderFields = header;
+    [request setValue:@"" forHTTPHeaderField:@""];
 
     return request.copy;
 }
@@ -85,14 +86,16 @@
  @return 请求参数字典
  */
 - (NSDictionary *)generateRequestBody{
-    NSMutableDictionary *commonDic = [YSHttpConfigure shareInstance].generalParameters.mutableCopy;
+    /// 先获取 特定的 params 非 nil
+    NSMutableDictionary *commonDic = self.normalParams.mutableCopy;
     //    NSMutableDictionary *encryptDict = @{}.mutableCopy;
     //    NSAssert(self.requestPath.length > 0, @"请求 Path 不能为空");
     //    encryptDict[@"uri"] = self.requestPath;
     //    [encryptDict addEntriesFromDictionary:commonDic];
     //    [encryptDict addEntriesFromDictionary:self.encryptParams];
     //
-        [commonDic addEntriesFromDictionary:self.normalParams];
+    /// 将通用的 param 加上去
+        [commonDic addEntriesFromDictionary:[YSHttpConfigure shareInstance].generalParameters];
 //#warning 这里要看后台怎么设置
     //    rslt[@"params2"] = [[encryptDict toJsonString] base64EncodedString];
 
@@ -138,6 +141,10 @@
 //    }
 //    return @"GET";
 //}
+
+- (void)setValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field {
+    
+}
 
 - (NSString *)baseURL{
     if (!_baseURL) {
