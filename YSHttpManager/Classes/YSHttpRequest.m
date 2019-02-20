@@ -68,14 +68,11 @@
     // 请求头
     request.allHTTPHeaderFields = self.requestHeader;
     NSMutableDictionary *header = request.allHTTPHeaderFields.mutableCopy;
-    if (!header)
-    {
+    if (!header) {
         header = [[NSMutableDictionary alloc] init];
     }
-    header[@"App-Version"] = self.apiVersion;
     [header addEntriesFromDictionary:[YSHttpConfigure shareInstance].generalHeaders];
     request.allHTTPHeaderFields = header;
-    [request setValue:@"" forHTTPHeaderField:@""];
 
     return request.copy;
 }
