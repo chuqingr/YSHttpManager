@@ -148,6 +148,13 @@
     
 }
 
+- (NSString *)requestURL {
+    if (!_requestURL) {
+        _requestURL = @"";
+    }
+    return _requestURL;
+}
+
 - (NSString *)baseURL{
     if (!_baseURL) {
         _baseURL = YSHttpConfigure.shareInstance.generalServer;

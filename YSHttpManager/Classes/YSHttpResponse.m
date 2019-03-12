@@ -53,7 +53,7 @@
 - (void)inspectionResponse:(NSError *)error {
     if (error) {
         self.status = YSHttpResponseStatusError;
-        self.content = @"网络连接失败";
+        self.content = @{@"result_message":@"网络连接失败"};
         self.statueCode = error.code;
     } else {
         if (self.rawData.length > 0) {
@@ -69,20 +69,17 @@
                 }
             } else {
                 self.status = YSHttpResponseStatusError;
-                self.content = dic[@"result_message"];
+                self.content = [self processCotnentValue:dic];
                 NSString *code = dic[@"result_code"];
                 if (code && [code isKindOfClass:[NSString class]]) {
                     self.statueCode = ((NSString*)code).integerValue;
 
                 }
-                if (![self.content isKindOfClass:[NSString class]]) {
-                    self.content = @"未知错误";
-                }
             }
         } else {
             self.status = YSHttpResponseStatusError;
             self.statueCode = 13;
-            self.content = @"返回数据为空";
+            self.content =  @{@"result_message":@"返回数据为空"};
         }
     }
 }
