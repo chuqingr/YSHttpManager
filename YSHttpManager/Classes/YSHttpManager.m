@@ -34,12 +34,9 @@
     if (_sessionManager == nil){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.HTTPMaximumConnectionsPerHost = 4;
-
+        /// 防止charls之类的工具抓包
+        configuration.connectionProxyDictionary = @{};
         _sessionManager = [NSURLSession sessionWithConfiguration:configuration];
-//        [[NSURLSession alloc] initWithSessionConfiguration:configuration];
-//        _sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
-//        _sessionManager.securityPolicy.allowInvalidCertificates = YES;
-//        _sessionManager.securityPolicy.validatesDomainName = NO;
     }
     return _sessionManager;
 }
@@ -52,6 +49,7 @@
         }
         return nil;
     }
+
     return [self requestWithRequest:request.generateRequest  complete:result];
 }
 - (NSString *_Nullable)sendRequestWithConfigBlock:(nonnull YSHRequestConfigBlock)requestBlock complete:(nonnull YSHttpResponseBlock) result{
