@@ -34,8 +34,13 @@
     if (_sessionManager == nil){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.HTTPMaximumConnectionsPerHost = 4;
-        /// 防止charls之类的工具抓包
+
+#if DEBUG
+
+#else
+        /// 防止charls之类的工具抓包  只对release 环境生效
         configuration.connectionProxyDictionary = @{};
+#endif
         _sessionManager = [NSURLSession sessionWithConfiguration:configuration];
     }
     return _sessionManager;
