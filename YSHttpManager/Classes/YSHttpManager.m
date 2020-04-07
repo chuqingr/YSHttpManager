@@ -34,6 +34,8 @@
     if (_sessionManager == nil){
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         configuration.HTTPMaximumConnectionsPerHost = 4;
+        /// 防止charls之类的工具抓包  只对release 环境生效
+//        configuration.connectionProxyDictionary = @{};
 
 #if DEBUG
 
@@ -124,9 +126,10 @@
     }
     __block NSURLSessionDataTask *task = nil;
     task = [self.sessionManager dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+       
         [self.reqeustDictionary removeObjectForKey:@([task taskIdentifier])];
         dispatch_async(dispatch_get_main_queue(), ^{
-             [self requestFinishedWithBlock:complete task:task data:data error:error];
+            [self requestFinishedWithBlock:complete task:task data:data error:error];
         });
 
     }];

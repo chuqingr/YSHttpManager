@@ -33,7 +33,7 @@
  @param result 响应结果
  @return 该请求对应的唯一 task id
  */
-- (NSString *_Nullable)sendRequest:(nonnull YSHttpRequest *)request complete:(nonnull YSHttpResponseBlock) result;
+- (NSString *)sendRequest:(nonnull YSHttpRequest *)request complete:(nonnull YSHttpResponseBlock) result;
 
 
 /**
@@ -43,7 +43,7 @@
  @param result 请求结果 Block
  @return 该请求对应的唯一 task id
  */
-- (NSString *_Nullable)sendRequestWithConfigBlock:(nonnull YSHRequestConfigBlock )requestBlock complete:(nonnull YSHttpResponseBlock) result;
+- (NSString *)sendRequestWithConfigBlock:(nonnull YSHRequestConfigBlock )requestBlock complete:(nonnull YSHttpResponseBlock) result;
 
 /**
  根据请求 ID 取消该任务

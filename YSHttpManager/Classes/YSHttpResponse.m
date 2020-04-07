@@ -58,24 +58,26 @@
     } else {
         if (self.rawData.length > 0) {
             NSDictionary *dic = [self jsonWithData:self.rawData];
+            self.status = YSHttpResponseStatusSuccess;
+            self.content = dic;
 
-            BOOL result = [dic[@"result_code"] integerValue] == 0;
-            if (result) {
-                self.status = YSHttpResponseStatusSuccess;
-                self.content = [self processCotnentValue:dic];
-                NSString *code = dic[@"result_code"];
-                if (code && [code isKindOfClass:[NSString class]]) {
-                    self.statueCode = ((NSString*)code).integerValue;
-                }
-            } else {
-                self.status = YSHttpResponseStatusError;
-                self.content = [self processCotnentValue:dic];
-                NSString *code = dic[@"result_code"];
-                if (code && [code isKindOfClass:[NSString class]]) {
-                    self.statueCode = ((NSString*)code).integerValue;
-
-                }
-            }
+//            BOOL result = [dic[@"result_code"] integerValue] == 0;
+//            if (result) {
+//                self.status = YSHttpResponseStatusSuccess;
+//                self.content = [self processCotnentValue:dic];
+//                NSString *code = dic[@"result_code"];
+//                if (code && [code isKindOfClass:[NSString class]]) {
+//                    self.statueCode = ((NSString*)code).integerValue;
+//                }
+//            } else {
+//                self.status = YSHttpResponseStatusError;
+//                self.content = [self processCotnentValue:dic];
+//                NSString *code = dic[@"result_code"];
+//                if (code && [code isKindOfClass:[NSString class]]) {
+//                    self.statueCode = ((NSString*)code).integerValue;
+//
+//                }
+//            }
         } else {
             self.status = YSHttpResponseStatusError;
             self.statueCode = 13;
