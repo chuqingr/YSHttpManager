@@ -41,7 +41,7 @@
 /**
  请求参数，不用加密 默认为 @{}
  */
-@property (nonatomic, strong) NSDictionary *normalParams;
+@property (nonatomic, strong) id normalParams;
 
 /**
  请求方式 默认为 YSHttpRequestTypePost

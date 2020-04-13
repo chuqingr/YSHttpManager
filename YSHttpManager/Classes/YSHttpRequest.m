@@ -58,9 +58,13 @@
     request.HTTPMethod = [self requestMethodName];
     /// 非GET DELETE BODY  请求体
     if (self.requestMethod >= 2) {
-        NSDictionary *param = [self generateRequestBody];
-        if (param) {
+        id param = [self generateRequestBody];
+        if ([param isKindOfClass:NSDictionary.class]) {
             NSData *data = [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
+            request.HTTPBody = data;
+        }
+        if ([param isKindOfClass:NSString.class]) {
+            NSData *data = [param dataUsingEncoding:kCFStringEncodingUTF8];
             request.HTTPBody = data;
         }
     }
@@ -82,23 +86,27 @@
 
  @return 请求参数字典
  */
-- (NSDictionary *)generateRequestBody{
+- (id)generateRequestBody{
     /// 先获取 特定的 params 非 nil
-    NSMutableDictionary *commonDic = self.normalParams.mutableCopy;
+    if ([self.normalParams isKindOfClass:NSDictionary.class]) {
+        NSMutableDictionary *commonDic = ((NSDictionary *)self.normalParams).mutableCopy;
     //    NSMutableDictionary *encryptDict = @{}.mutableCopy;
     //    NSAssert(self.requestPath.length > 0, @"请求 Path 不能为空");
     //    encryptDict[@"uri"] = self.requestPath;
     //    [encryptDict addEntriesFromDictionary:commonDic];
     //    [encryptDict addEntriesFromDictionary:self.encryptParams];
     //
-    /// 将通用的 param 加上去
+        /// 将通用的 param 加上去
         [commonDic addEntriesFromDictionary:[YSHttpConfigure shareInstance].generalParameters];
 //#warning 这里要看后台怎么设置
     //    rslt[@"params2"] = [[encryptDict toJsonString] base64EncodedString];
 
 
     //    NSLog(@"%@", encryptDict);
-    return commonDic.copy;
+        return commonDic.copy;
+    }else {
+        return self.normalParams;
+    }
 }
 - (NSString *)requestMethodName {
     if (!_requestMethodName) {
